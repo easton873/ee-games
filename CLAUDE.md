@@ -2,64 +2,78 @@
 
 ## Project Overview
 
-Static retro-themed game portal. Vanilla HTML5, CSS3, JS — no framework, no build system, no dependencies. Each HTML file is self-contained with inline styles.
+Static retro-themed game portal. Vanilla HTML5, CSS3, JS — retro pixel aesthetic with no runtime framework. Uses **Eleventy (11ty)** to generate HTML from Nunjucks templates and a single games data file.
+
+**Build:** `npm run build` → outputs to `_site/`
+**Dev server:** `npm run dev` → live-reloading dev server at `localhost:8080`
 
 ---
 
-## Adding a New Game Page
+## Adding a New Game
 
-### Step 1: Add to the games array in `index.html`
-
-Find the `const games = [...]` array and append a new entry:
+**Only one step: add an entry to `src/_data/games.js`.**
 
 ```javascript
 {
   id: <next number>,
-  title: "GAME NAME",
-  desc: "Short description of gameplay",
-  tags: ["arcade"],         // Options: arcade, puzzle, action, platformer, strategy
-  thumb: "thumb-space",     // CSS class: thumb-space, thumb-dungeon, thumb-puzzle, thumb-race, thumb-platform, thumb-fight
-  icon: "🎮",               // Emoji or <img> tag pointing to /images/icons/game-name.png
+  slug: "my-game-name",               // becomes my-game-name.html
+  title: "MY GAME NAME",
+  windowTitle: "MY GAME NAME",        // shown in the macOS window chrome
+  desc: "Short description for cards",
+  tags: ["arcade"],                   // Options: arcade, puzzle, action, platformer, strategy
+  thumb: "thumb-space",               // CSS class for card background color
+  cardIconType: "emoji",              // "emoji" or "image"
+  cardIcon: "🎮",                     // emoji string OR image path like "images/icons/game.png"
+  sidebarIcon: "🎮",                  // always emoji — used in "More Games" sidebar
+  sidebarMeta: "ARCADE",             // genre text shown under title in sidebar
   plays: "—",
   rating: "★★★★★",
-  isNew: true,              // Shows a "NEW" badge on the card
-  url: "game-name.html"
+  ratingNum: "5.0",
+  isNew: true,
+  featured: false,                    // set true to feature on home page (only one should be true)
+  iframeUrl: "https://...",           // URL loaded when player clicks PLAY
+  accentColor: "#00ff88",             // color for play button border, stars, click-to-play text
+  placeholderBg: "radial-gradient(ellipse at center, #001a0d 0%, #000510 60%, #000 100%)",
+  pulseBoxShadow1: "0 0 30px rgba(0,255,136,0.3)",
+  pulseBoxShadow2: "0 0 50px rgba(0,255,136,0.6)",
+  genre: "ARCADE / CLICKER",         // shown in sidebar Game Info box
+  difficulty: "★☆☆☆☆",
+  mobile: "✓ SUPPORTED",
+  about: [                            // each string = one paragraph in Description tab
+    "First paragraph.",
+    "Second paragraph."
+  ],
+  controls: [                         // each entry = one key/label row in Controls tab
+    { key: "CLICK", label: "Click the button" },
+    { key: "MOUSE", label: "Navigate menus" }
+  ]
 }
 ```
 
-### Step 2: Create the game page (`game-name.html`)
+Then run `npm run build`. The game page, home page card, and "More Games" sidebar on every other page all update automatically.
 
-Copy an existing game page (e.g., `avoid-the-walls.html`) and update:
+**Optional:** Add a card icon image at `images/icons/my-game-name.png` and reference it with `cardIconType: "image"` and `cardIcon: "images/icons/my-game-name.png"`.
 
-1. `<title>` and `<meta>` tags
-2. Breadcrumb: `<span class="current">GAME NAME</span>`
-3. Game title bar content (title, tags, rating)
-4. `game-frame-container` — embed your game logic or an `<iframe src="game.html">`
-5. Tab content: About, Controls, Tips
-6. Sidebar stats box
+---
 
-**Two-column layout structure:**
-```
-<div class="page">
-  <div class="game-title-bar">...</div>
-  <div class="game-column">   ← main content (game + tabs)
-  <aside class="sidebar">     ← right sidebar
-```
+## File Map
 
-### Step 3: Add assets (optional)
-
-- Card icon image: `/images/icons/game-name.png`
-- Screenshots (if app detail page): `/images/game-name/screenshot1.png`
-
-### Step 4: Update navigation (optional)
-
-All pages share the same header nav. No changes needed unless you're adding a new top-level section.
+| Path | Purpose |
+|------|---------|
+| `src/_data/games.js` | **Single source of truth** — all game metadata |
+| `src/_includes/base.njk` | Shared HTML shell: `<head>`, CSS variables, header, body |
+| `src/_includes/game-page.njk` | Game page layout template (extends base.njk) |
+| `src/game.njk` | Pagination driver — generates one HTML page per game in `games.js` |
+| `src/index.njk` | Home page template (extends base.njk) |
+| `_site/` | Build output — deploy this directory (git-ignored) |
+| `about.html` / `support.html` / `privacy-policy.html` / `apps.html` | Info pages (passed through as-is) |
+| `images/` | Static assets (passed through to `_site/`) |
 
 ---
 
 ## Key Patterns
 
-### CSS Variables (defined at top of each file)
+### CSS Variables (defined in `src/_includes/base.njk`)
 
 ```css
 --accent: #00ff88   /* neon green */
@@ -68,7 +82,11 @@ All pages share the same header nav. No changes needed unless you're adding a ne
 --accent4: #3eb8ff  /* cyan */
 ```
 
-Per-game accent color: customize placeholder backgrounds and play icon borders to give each game a distinct feel.
+### Thumb classes (card background gradients)
+
+```
+thumb-space, thumb-dungeon, thumb-puzzle, thumb-race, thumb-platform, thumb-fight
+```
 
 ### Tag classes
 
@@ -80,50 +98,21 @@ Per-game accent color: customize placeholder backgrounds and play icon borders t
 <span class="tag tag-platformer">PLATFORMER</span>
 ```
 
-### Tab switching (standard JS on all game pages)
+### Per-game accent color
 
-```javascript
-function switchTab(tabName, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(tabName).classList.add('active');
-  btn.classList.add('active');
-}
-```
+Each game gets a custom `accentColor` which controls:
+- The play button border and glow
+- The "CLICK TO PLAY" text color
+- The twinkling star particles on the placeholder
 
-### Game placeholder / play button
-
-The game frame starts with a placeholder overlay. Clicking "PLAY" hides it:
-
-```javascript
-function playGame() {
-  document.getElementById('placeholder').classList.add('hidden');
-  // optionally inject iframe here
-}
-```
-
----
-
-## File Map
-
-| File | Purpose |
-|------|---------|
-| `index.html` | Home — game grid, filter/search, `games` data array |
-| `game-page.html` | Blank template — copy this for new games |
-| `avoid-the-walls.html` | Game page example |
-| `ultimate-button-clicker.html` | Game page example |
-| `lemonade-stand.html` | Game page example |
-| `briannas-game.html` | Game page example |
-| `apps.html` | Apps/projects hub |
-| `some-grid-puzzle-game.html` | App detail page (single-column layout) |
-| `about.html` / `support.html` / `privacy-policy.html` | Info pages |
+Match `pulseBoxShadow1`/`pulseBoxShadow2` rgba values to the accent color.
 
 ---
 
 ## Styling Conventions
 
 - Fonts: **Press Start 2P** for headings/buttons, **VT323** for body text
-- All styles are inline per-file — no shared stylesheet
+- Shared CSS lives in `base.njk` and `game-page.njk` — not per-file anymore
 - CRT scanline effect via `body::before` pseudo-element
-- Pixel-art cursor defined in `body` cursor property
+- Pixel-art cursor defined in `index.njk` (home page only)
 - Buttons use offset `box-shadow` for 3D "pressed" feel; hover shifts with `transform: translate(-2px, -2px)`

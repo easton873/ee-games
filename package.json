@@ -1,0 +1,25 @@
+{
+  "name": "ee-games",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "eleventy",
+    "dev": "eleventy --serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/easton873/ee-games.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/easton873/ee-games/issues"
+  },
+  "homepage": "https://github.com/easton873/ee-games#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.5"
+  }
+}
