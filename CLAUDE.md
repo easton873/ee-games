@@ -4,7 +4,7 @@
 
 Static retro-themed game portal. Vanilla HTML5, CSS3, JS — retro pixel aesthetic with no runtime framework. Uses **Eleventy (11ty)** to generate HTML from Nunjucks templates and a single games data file.
 
-**Build:** `npm run build` → outputs to `_site/`
+**Build:** `npm run build` → outputs to `docs/`
 **Dev server:** `npm run dev` → live-reloading dev server at `localhost:8080`
 
 ---
@@ -65,9 +65,9 @@ Then run `npm run build`. The game page, home page card, and "More Games" sideba
 | `src/_includes/game-page.njk` | Game page layout template (extends base.njk) |
 | `src/game.njk` | Pagination driver — generates one HTML page per game in `games.js` |
 | `src/index.njk` | Home page template (extends base.njk) |
-| `_site/` | Build output — deploy this directory (git-ignored) |
+| `docs/` | Build output — deploy this directory (git-ignored) |
 | `about.html` / `support.html` / `privacy-policy.html` / `apps.html` | Info pages (passed through as-is) |
-| `images/` | Static assets (passed through to `_site/`) |
+| `images/` | Static assets (passed through to `docs/`) |
 
 ---
 
