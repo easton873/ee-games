@@ -102,7 +102,7 @@
 
   .nav-links {
     display: flex;
-    gap: 32px;
+    gap: 28px;
     list-style: none;
   }
 
@@ -589,6 +589,26 @@
     margin-bottom: 16px;
   }
 
+  footer .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    list-style: none;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  footer .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.1s;
+  }
+
+  footer .footer-links a:hover {
+    color: var(--accent);
+  }
+
   /* ========== PIXEL ART CANVAS DRAWINGS ========== */
   .no-games {
     grid-column: 1/-1;
@@ -654,7 +674,9 @@
     EE GAMES
   </div>
   <ul class="nav-links">
-    <li><a href="#">GAMES</a></li>
+    <li><a href="index.html" class="active">GAMES</a></li>
+    <li><a href="apps.html">APPS</a></li>
+    <li><a href="about.html">ABOUT</a></li>
     <li><a href="support.html">SUPPORT</a></li>
     <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
   </ul>
@@ -665,20 +687,12 @@
 <div class="hero">
   <div class="hero-grid">
     <div>
-      <h1 class="hero-title">PLAY FREE<br><span>BROWSER GAMES</span><br>ANYTIME.</h1>
-      <p class="hero-sub">No installs. No accounts. No nonsense.<br>Just click and play.</p>
+      <h1 class="hero-title">Let's Play<br><span>FREE Games</span></h1>
+      <p class="hero-sub">Hope you are ready for some fun</p>
       <div class="stats-row">
         <div class="stat">
           <span class="stat-num" id="game-count">04</span>
           <span class="stat-label">GAMES</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">∞</span>
-          <span class="stat-label">FUN</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">$0</span>
-          <span class="stat-label">COST</span>
         </div>
       </div>
     </div>
@@ -738,6 +752,13 @@
     EE GAMES
   </div>
   <p>Made with ❤ and too much caffeine &nbsp;·&nbsp; All games original &nbsp;·&nbsp; © 2025</p>
+  <ul class="footer-links">
+    <li><a href="index.html">GAMES</a></li>
+    <li><a href="apps.html">APPS</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+  </ul>
 </footer>
 
 <script>
@@ -785,7 +806,7 @@
       desc: "A special game made with love.",
       tags: ["arcade"],
       thumb: "thumb-platform",
-      icon: "🎮",
+      icon: "<img src='images/icons/briannas-game.png' style='width:72px;height:72px;object-fit:contain;image-rendering:pixelated;'>",
       plays: "—",
       rating: "★★★★★",
       isNew: false,

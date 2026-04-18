@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="logo.png">
-<title>Support — EE Games</title>
+<title>Brianna's Game — EE Games</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap');
 
@@ -87,7 +87,7 @@
 
   .nav-links {
     display: flex;
-    gap: 32px;
+    gap: 28px;
     list-style: none;
   }
 
@@ -104,34 +104,25 @@
     text-shadow: 0 0 10px var(--accent);
   }
 
-  /* ========== MARQUEE ========== */
-  .marquee-bar {
-    background: var(--accent2);
-    padding: 6px 0;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .marquee-inner {
-    display: inline-block;
-    animation: marquee 20s linear infinite;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    color: #fff;
-    letter-spacing: 2px;
-  }
-
-  @keyframes marquee {
-    from { transform: translateX(100vw); }
-    to { transform: translateX(-100%); }
-  }
-
   /* ========== PAGE CONTENT ========== */
   .page-hero {
-    padding: 60px 40px 40px;
+    padding: 60px 40px 32px;
     max-width: 900px;
     margin: 0 auto;
   }
+
+  .back-link {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 24px;
+    transition: color 0.1s;
+  }
+
+  .back-link:hover { color: var(--accent); }
 
   .page-title {
     font-family: 'Press Start 2P', monospace;
@@ -154,122 +145,143 @@
     border: 2px solid var(--border);
     padding: 40px;
     max-width: 900px;
-    margin: 0 auto 60px;
+    margin: 0 auto 32px;
   }
 
-  .support-section {
+  .app-section {
     margin-bottom: 48px;
   }
 
-  .support-section:last-child {
+  .app-section:last-child {
     margin-bottom: 0;
   }
 
-  .support-section h2 {
+  .app-section h2 {
     font-family: 'Press Start 2P', monospace;
     font-size: 10px;
     color: var(--accent4);
     letter-spacing: 1px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
     line-height: 1.8;
   }
 
-  .support-section p {
+  .app-section p {
     color: var(--text);
     font-size: 20px;
     line-height: 1.7;
     margin-bottom: 12px;
   }
 
-  .support-section p:last-child {
-    margin-bottom: 0;
+  .app-section p:last-child { margin-bottom: 0; }
+
+  /* ========== TRAILER ========== */
+  .trailer-wrap {
+    display: flex;
+    justify-content: center;
   }
 
-  .support-section ul {
-    list-style: none;
-    margin: 12px 0;
-  }
-
-  .support-section ul li {
-    color: var(--text);
-    font-size: 20px;
-    line-height: 1.7;
-    padding-left: 20px;
+  .trailer-frame {
     position: relative;
-    margin-bottom: 6px;
+    width: 100%;
+    max-width: 340px;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 30px rgba(0,255,136,0.2), 6px 6px 0 #003320;
   }
 
-  .support-section ul li::before {
-    content: '▸';
+  .trailer-frame::before {
+    content: '';
+    display: block;
+    padding-top: 177.78%; /* 9:16 vertical aspect ratio */
+  }
+
+  .trailer-frame iframe {
     position: absolute;
-    left: 0;
-    color: var(--accent);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
   }
 
-  .bug-report-btn {
+  /* ========== STORE BUTTONS ========== */
+  .store-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .store-btn {
     font-family: 'Press Start 2P', monospace;
     font-size: 9px;
-    background: var(--accent2);
-    color: #fff;
-    border: none;
-    padding: 14px 24px;
+    padding: 14px 22px;
     cursor: pointer;
     letter-spacing: 1px;
     display: inline-flex;
     align-items: center;
     gap: 10px;
     transition: transform 0.05s, box-shadow 0.05s;
-    box-shadow: 4px 4px 0 #5a0020;
     text-decoration: none;
-    margin-top: 16px;
   }
 
-  .bug-report-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 #5a0020;
-  }
-
-  .bug-report-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #5a0020;
-  }
-
-  .contact-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    background: transparent;
-    color: var(--accent4);
-    border: 2px solid var(--accent4);
-    padding: 14px 24px;
-    cursor: pointer;
-    letter-spacing: 1px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.1s;
-    box-shadow: 4px 4px 0 #012040;
-    text-decoration: none;
-    margin-top: 16px;
-  }
-
-  .contact-btn:hover {
+  .store-btn-ios {
     background: var(--accent4);
     color: var(--bg);
+    border: none;
+    box-shadow: 4px 4px 0 #012040;
+  }
+
+  .store-btn-ios:hover {
     transform: translate(-2px, -2px);
     box-shadow: 6px 6px 0 #012040;
   }
 
-  .info-box {
-    background: rgba(62,184,255,0.05);
-    border: 1px solid var(--accent4);
-    padding: 16px 20px;
-    margin: 16px 0;
+  .store-btn-android {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    box-shadow: 4px 4px 0 #003320;
   }
 
-  .info-box p {
-    color: var(--accent4) !important;
+  .store-btn-android:hover {
+    background: var(--accent);
+    color: var(--bg);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #003320;
+  }
+
+  /* ========== SCREENSHOTS ========== */
+  .screenshot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  /* To add real screenshots, replace .placeholder-shot divs with:
+     <img src="images/briannas-game/screenshot1.png" alt="Screenshot 1" class="screenshot-img"> */
+  .placeholder-shot {
+    aspect-ratio: 9 / 16;
+    background: var(--bg2);
+    border: 1px dashed var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--muted);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    text-align: center;
+    line-height: 1.8;
+    padding: 12px;
+  }
+
+  .screenshot-img {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--border);
   }
 
   a.inline-link {
@@ -300,9 +312,10 @@
   footer .footer-links {
     display: flex;
     justify-content: center;
-    gap: 32px;
+    gap: 28px;
     list-style: none;
     margin-top: 16px;
+    flex-wrap: wrap;
   }
 
   footer .footer-links a {
@@ -336,46 +349,64 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html">GAMES</a></li>
-    <li><a href="apps.html">APPS</a></li>
+    <li><a href="apps.html" class="active">APPS</a></li>
     <li><a href="about.html">ABOUT</a></li>
-    <li><a href="support.html" class="active">SUPPORT</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
     <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
   </ul>
 </header>
 
-<!-- PAGE TITLE -->
+<!-- PAGE HERO -->
 <div class="page-hero">
-  <h1 class="page-title"><span>SUPPORT</span></h1>
-  <p class="page-sub">Need help? Found a bug? We've got you.</p>
+  <a href="apps.html" class="back-link">◂ BACK TO APPS</a>
+  <h1 class="page-title">BRIANNA'S <span>GAME</span></h1>
+  <p class="page-sub">A merge puzzle game &nbsp;·&nbsp; Free on iOS &amp; Android</p>
 </div>
 
 <!-- CONTENT -->
 <div class="content-panel">
 
-  <div class="support-section">
-    <h2>REPORT A BUG</h2>
-    <p>Something broken? A game crashing, a button not working, or something just acting weird? Fill out a quick bug report and we'll look into it.</p>
-    <div class="info-box">
-      <p>Include the game name, what happened, and what you expected to happen — that helps us fix it faster.</p>
+  <div class="app-section">
+    <h2>DOWNLOAD</h2>
+    <p>Free to download and play on iOS and Android. No account needed.</p>
+    <div class="store-btns">
+      <a class="store-btn store-btn-ios" href="https://www.google.com/url?q=https%3A%2F%2Fapps.apple.com%2Fus%2Fapp%2Fbriannas-game%2Fid6746496583&sa=D&sntz=1&usg=AOvVaw1H7-v2HoBRt_nLTax4_wNn" target="_blank" rel="noopener">🍎 &nbsp; APP STORE</a>
+      <a class="store-btn store-btn-android" href="https://play.google.com/store/apps/details?id=com.easton.brianna&pcampaignid=web_share" target="_blank" rel="noopener">🤖 &nbsp; GOOGLE PLAY</a>
     </div>
-    <a class="bug-report-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSf_3Aq3mWs2YQBc8frlG00IIWHTqMPXuYYDYiN6_wjSRpavaA/viewform" target="_blank" rel="noopener">🐛 &nbsp; OPEN BUG REPORT FORM</a>
   </div>
 
-  <div class="support-section">
-    <h2>CONTACT US</h2>
-    <p>For anything else — questions, feedback, or just to say hi — you can reach us by email.</p>
-    <a class="contact-btn" href="mailto:support@ee-games.com">✉ &nbsp; support@ee-games.com</a>
+  <div class="app-section">
+    <h2>TRAILER</h2>
+    <div class="trailer-wrap">
+      <div class="trailer-frame">
+        <iframe
+          src="https://www.youtube.com/embed/S5NSk5RWPY8"
+          title="Brianna's Game Trailer"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
   </div>
 
-  <div class="support-section">
-    <h2>FREQUENTLY ASKED QUESTIONS</h2>
-    <ul>
-      <li>Do I need an account to play? — Nope. Just click and play.</li>
-      <li>Are the games free? — Yes. Always.</li>
-      <li>Will you collect my data? — No. See our <a class="inline-link" href="privacy-policy.html">Privacy Policy</a>.</li>
-      <li>My game progress disappeared — Game saves are stored locally in your browser. Clearing cookies/site data will reset them.</li>
-      <li>A game isn't loading — Try a hard refresh (Ctrl+Shift+R / Cmd+Shift+R) or a different browser.</li>
-    </ul>
+  <div class="app-section">
+    <h2>ABOUT THE GAME</h2>
+    <p>Brianna's Game is a merge puzzle game where you combine matching pieces to complete levels and clear the board. Simple to learn, satisfying to master.</p>
+    <p>The game is completely free to play. Ads help keep it that way — see our <a class="inline-link" href="about.html">About page</a> for more on how we keep all our games free.</p>
+  </div>
+
+  <div class="app-section">
+    <h2>SCREENSHOTS</h2>
+    <div class="screenshot-grid">
+      <img src="images/briannas-game/sceenshot1.png" alt="Screenshot 1" class="screenshot-img">
+      <img src="images/briannas-game/sceenshot2.png" alt="Screenshot 2" class="screenshot-img">
+      <img src="images/briannas-game/sceenshot3.png" alt="Screenshot 3" class="screenshot-img">
+      <img src="images/briannas-game/sceenshot4.png" alt="Screenshot 4" class="screenshot-img">
+      <img src="images/briannas-game/sceenshot5.png" alt="Screenshot 5" class="screenshot-img">
+      <img src="images/briannas-game/sceenshot6.png" alt="Screenshot 6" class="screenshot-img">
+      <img src="images/briannas-game/sceenshot7.png" alt="Screenshot 7" class="screenshot-img">
+      <img src="images/briannas-game/sceenshot8.png" alt="Screenshot 8" class="screenshot-img">
+    </div>
   </div>
 
 </div>

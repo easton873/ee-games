@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="logo.png">
-<title>Support — EE Games</title>
+<title>Apps — EE Games</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap');
 
@@ -87,7 +87,7 @@
 
   .nav-links {
     display: flex;
-    gap: 32px;
+    gap: 28px;
     list-style: none;
   }
 
@@ -114,7 +114,7 @@
 
   .marquee-inner {
     display: inline-block;
-    animation: marquee 20s linear infinite;
+    animation: marquee 22s linear infinite;
     font-family: 'Press Start 2P', monospace;
     font-size: 9px;
     color: #fff;
@@ -126,10 +126,10 @@
     to { transform: translateX(-100%); }
   }
 
-  /* ========== PAGE CONTENT ========== */
+  /* ========== PAGE HERO ========== */
   .page-hero {
     padding: 60px 40px 40px;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
@@ -149,136 +149,140 @@
     line-height: 1.5;
   }
 
-  .content-panel {
+  /* ========== APP CARDS ========== */
+  .apps-grid {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 28px;
+  }
+
+  .app-card {
     background: var(--panel);
     border: 2px solid var(--border);
-    padding: 40px;
-    max-width: 900px;
-    margin: 0 auto 60px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.1s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
   }
 
-  .support-section {
-    margin-bottom: 48px;
+  .app-card:hover {
+    border-color: var(--accent4);
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0 var(--accent4);
   }
 
-  .support-section:last-child {
-    margin-bottom: 0;
+  .app-thumb {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .support-section h2 {
+  .thumb-brianna { background: linear-gradient(135deg, #0d001a 0%, #1a003a 50%, #0a000f 100%); }
+  .thumb-grid    { background: linear-gradient(135deg, #001520 0%, #002840 50%, #000d15 100%); }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  .app-thumb span { animation: float 3s ease-in-out infinite; filter: drop-shadow(0 0 12px currentColor); }
+
+  .app-badge {
+    position: absolute;
+    top: 0; left: 0;
     font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    color: var(--accent4);
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
+    font-size: 7px;
+    padding: 5px 9px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-available { background: var(--accent); color: var(--bg); }
+  .badge-soon      { background: var(--accent3); color: var(--bg); }
+
+  .app-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .app-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--text);
     line-height: 1.8;
   }
 
-  .support-section p {
-    color: var(--text);
-    font-size: 20px;
-    line-height: 1.7;
-    margin-bottom: 12px;
+  .app-desc {
+    color: var(--muted);
+    font-size: 19px;
+    line-height: 1.5;
+    flex: 1;
   }
 
-  .support-section p:last-child {
-    margin-bottom: 0;
+  .app-platforms {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
-  .support-section ul {
-    list-style: none;
-    margin: 12px 0;
+  .platform-tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 4px 8px;
+    letter-spacing: 0.5px;
   }
 
-  .support-section ul li {
-    color: var(--text);
-    font-size: 20px;
-    line-height: 1.7;
-    padding-left: 20px;
-    position: relative;
-    margin-bottom: 6px;
-  }
+  .tag-ios     { background: rgba(62,184,255,0.12); color: var(--accent4); border: 1px solid var(--accent4); }
+  .tag-android { background: rgba(0,255,136,0.12); color: var(--accent); border: 1px solid var(--accent); }
+  .tag-coming  { background: rgba(255,224,51,0.12); color: var(--accent3); border: 1px solid var(--accent3); }
 
-  .support-section ul li::before {
-    content: '▸';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-  }
-
-  .bug-report-btn {
+  .app-cta {
     font-family: 'Press Start 2P', monospace;
     font-size: 9px;
-    background: var(--accent2);
-    color: #fff;
-    border: none;
-    padding: 14px 24px;
-    cursor: pointer;
-    letter-spacing: 1px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: transform 0.05s, box-shadow 0.05s;
-    box-shadow: 4px 4px 0 #5a0020;
-    text-decoration: none;
-    margin-top: 16px;
-  }
-
-  .bug-report-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 #5a0020;
-  }
-
-  .bug-report-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #5a0020;
-  }
-
-  .contact-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    background: transparent;
-    color: var(--accent4);
-    border: 2px solid var(--accent4);
-    padding: 14px 24px;
-    cursor: pointer;
-    letter-spacing: 1px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.1s;
-    box-shadow: 4px 4px 0 #012040;
-    text-decoration: none;
-    margin-top: 16px;
-  }
-
-  .contact-btn:hover {
     background: var(--accent4);
     color: var(--bg);
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.05s, box-shadow 0.05s;
+    box-shadow: 4px 4px 0 #012040;
+    width: 100%;
+    text-decoration: none;
+    margin-top: 6px;
+  }
+
+  .app-cta:hover {
     transform: translate(-2px, -2px);
     box-shadow: 6px 6px 0 #012040;
   }
 
-  .info-box {
-    background: rgba(62,184,255,0.05);
-    border: 1px solid var(--accent4);
-    padding: 16px 20px;
-    margin: 16px 0;
+  .app-cta.cta-muted {
+    background: transparent;
+    color: var(--accent3);
+    border: 2px solid var(--accent3);
+    box-shadow: 4px 4px 0 #3a2a00;
   }
 
-  .info-box p {
-    color: var(--accent4) !important;
-  }
-
-  a.inline-link {
-    color: var(--accent4);
-    text-decoration: none;
-  }
-  a.inline-link:hover {
-    text-shadow: 0 0 8px var(--accent4);
-    text-decoration: underline;
+  .app-cta.cta-muted:hover {
+    background: var(--accent3);
+    color: var(--bg);
+    box-shadow: 6px 6px 0 #3a2a00;
   }
 
   /* ========== FOOTER ========== */
@@ -300,9 +304,10 @@
   footer .footer-links {
     display: flex;
     justify-content: center;
-    gap: 32px;
+    gap: 28px;
     list-style: none;
     margin-top: 16px;
+    flex-wrap: wrap;
   }
 
   footer .footer-links a {
@@ -336,46 +341,51 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html">GAMES</a></li>
-    <li><a href="apps.html">APPS</a></li>
+    <li><a href="apps.html" class="active">APPS</a></li>
     <li><a href="about.html">ABOUT</a></li>
-    <li><a href="support.html" class="active">SUPPORT</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
     <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
   </ul>
 </header>
 
-<!-- PAGE TITLE -->
+<!-- PAGE HERO -->
 <div class="page-hero">
-  <h1 class="page-title"><span>SUPPORT</span></h1>
-  <p class="page-sub">Need help? Found a bug? We've got you.</p>
+  <h1 class="page-title">MOBILE <span>APPS</span></h1>
+  <p class="page-sub">Free to play &nbsp;·&nbsp; Built for iOS &amp; Android &nbsp;·&nbsp; No accounts required</p>
 </div>
 
-<!-- CONTENT -->
-<div class="content-panel">
+<!-- APP CARDS -->
+<div class="apps-grid">
 
-  <div class="support-section">
-    <h2>REPORT A BUG</h2>
-    <p>Something broken? A game crashing, a button not working, or something just acting weird? Fill out a quick bug report and we'll look into it.</p>
-    <div class="info-box">
-      <p>Include the game name, what happened, and what you expected to happen — that helps us fix it faster.</p>
+  <div class="app-card" onclick="window.location.href='briannas-game-app.html'">
+    <div class="app-thumb thumb-brianna">
+      <span class="app-badge badge-available">AVAILABLE NOW</span>
+      <img src="images/icons/briannas-game.png" style="width:80px;height:80px;object-fit:contain;image-rendering:pixelated;">
     </div>
-    <a class="bug-report-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSf_3Aq3mWs2YQBc8frlG00IIWHTqMPXuYYDYiN6_wjSRpavaA/viewform" target="_blank" rel="noopener">🐛 &nbsp; OPEN BUG REPORT FORM</a>
+    <div class="app-body">
+      <div class="app-title">BRIANNA'S GAME</div>
+      <div class="app-desc">A merge puzzle game built with love. Complete levels by combining matching pieces to clear the board.</div>
+      <div class="app-platforms">
+        <span class="platform-tag tag-ios">iOS</span>
+        <span class="platform-tag tag-android">ANDROID</span>
+      </div>
+      <a class="app-cta" href="briannas-game-app.html">▶ &nbsp; VIEW APP</a>
+    </div>
   </div>
 
-  <div class="support-section">
-    <h2>CONTACT US</h2>
-    <p>For anything else — questions, feedback, or just to say hi — you can reach us by email.</p>
-    <a class="contact-btn" href="mailto:support@ee-games.com">✉ &nbsp; support@ee-games.com</a>
-  </div>
-
-  <div class="support-section">
-    <h2>FREQUENTLY ASKED QUESTIONS</h2>
-    <ul>
-      <li>Do I need an account to play? — Nope. Just click and play.</li>
-      <li>Are the games free? — Yes. Always.</li>
-      <li>Will you collect my data? — No. See our <a class="inline-link" href="privacy-policy.html">Privacy Policy</a>.</li>
-      <li>My game progress disappeared — Game saves are stored locally in your browser. Clearing cookies/site data will reset them.</li>
-      <li>A game isn't loading — Try a hard refresh (Ctrl+Shift+R / Cmd+Shift+R) or a different browser.</li>
-    </ul>
+  <div class="app-card" onclick="window.location.href='some-grid-puzzle-game.html'">
+    <div class="app-thumb thumb-grid">
+      <span class="app-badge badge-soon">COMING SOON</span>
+      <img src="images/icons/some-grid-puzzle-game.png" style="width:80px;height:80px;object-fit:contain;image-rendering:pixelated;">
+    </div>
+    <div class="app-body">
+      <div class="app-title">SOME GRID PUZZLE GAME</div>
+      <div class="app-desc">Our next title is in development. A grid-based puzzle experience — stay tuned for more details.</div>
+      <div class="app-platforms">
+        <span class="platform-tag tag-coming">IN DEVELOPMENT</span>
+      </div>
+      <a class="app-cta cta-muted" href="some-grid-puzzle-game.html">👁 &nbsp; SEE PREVIEW</a>
+    </div>
   </div>
 
 </div>
