@@ -9,7 +9,6 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("privacy-policy.html");
   eleventyConfig.addPassthroughCopy("apps.html");
   eleventyConfig.addPassthroughCopy("briannas-game-app.html");
-  eleventyConfig.addPassthroughCopy("some-grid-puzzle-game.html");
 
   return {
     dir: {

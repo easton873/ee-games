@@ -25,9 +25,10 @@ module.exports = [
     difficulty: "★☆☆☆☆",
     mobile: "✓ SUPPORTED",
     about: [
-      "The button is right there. You know what to do.",
-      "Click it. Watch the numbers go up. Click it faster. Upgrade your clicking power. Achieve button-clicking greatness.",
-      "Simple premise, infinite satisfaction. How high can you go?"
+      "The button is right there",
+      "Click it and then upgrade so you can get even more clicks and upgrades",
+      "Go to new levels, unlock long lasting upgrades that persist from level to level.",
+      "And have fun, that's important too."
     ],
     controls: [
       { key: "CLICK", label: "Click the button" },
@@ -39,7 +40,7 @@ module.exports = [
     slug: "avoid-the-walls",
     title: "AVOID THE WALLS",
     windowTitle: "AVOID THE WALLS RUNNER",
-    desc: "Race through tight corridors without touching the walls. One hit and it's over.",
+    desc: "Well, don't run into any walls and you'll win",
     tags: ["action", "arcade"],
     thumb: "thumb-fight",
     cardIconType: "image",
@@ -60,9 +61,9 @@ module.exports = [
     difficulty: "★★★★☆",
     mobile: "✓ SUPPORTED",
     about: [
-      "The walls are closing in. Your only job: don't touch them.",
-      "Navigate through tight corridors at increasing speeds. One brush against the wall and it's all over. Test your reflexes and see how far you can run.",
-      "Easy to learn, brutally hard to master."
+      "So basically you are a cube and every where you go you leave a trail of walls",
+      "And everybody else around you does the same thing",
+      "Your task is simple, avoid the walls"
     ],
     controls: [
       { key: "←→", label: "Move left / right" },
@@ -75,7 +76,7 @@ module.exports = [
     slug: "lemonade-stand",
     title: "LEMONADE STAND",
     windowTitle: "LEMONADE STAND",
-    desc: "Run your own lemonade stand. Manage supplies, set prices, and turn a profit.",
+    desc: "Run your own lemonade stand and make bookoo bucks",
     tags: ["strategy"],
     thumb: "thumb-dungeon",
     cardIconType: "emoji",
@@ -96,9 +97,9 @@ module.exports = [
     difficulty: "★★☆☆☆",
     mobile: "✓ SUPPORTED",
     about: [
-      "Start your empire one cup at a time.",
+      "Start your empire one cup at a time",
       "Manage your lemonade stand by setting the right price, buying supplies, and reading the weather. Too expensive and nobody buys. Too cheap and you lose money. Get it just right and watch the profits roll in.",
-      "A classic business strategy game — simple to play, tricky to master."
+      "And learn semi-good business principles"
     ],
     controls: [
       { key: "MOUSE", label: "All controls" },
@@ -110,7 +111,7 @@ module.exports = [
     slug: "briannas-game",
     title: "BRIANNA'S GAME",
     windowTitle: "BRIANNA'S GAME",
-    desc: "A special game made with love.",
+    desc: "A merger game",
     tags: ["arcade"],
     thumb: "thumb-platform",
     cardIconType: "image",
@@ -131,7 +132,7 @@ module.exports = [
     difficulty: "★★★☆☆",
     mobile: "✓ SUPPORTED",
     about: [
-      "A special game made with love.",
+      "A merger game that is also available on iOS and Android",
       "Jump in and see what it's all about — there's only one way to find out."
     ],
     controls: [
