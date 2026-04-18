@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logo.png">
+<title>Apps — EE Games</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --panel: #16161f;
+    --border: #2a2a3a;
+    --accent: #00ff88;
+    --accent2: #ff3e6c;
+    --accent3: #ffe033;
+    --accent4: #3eb8ff;
+    --text: #e8e8f0;
+    --muted: #666680;
+    --pixel: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='0' y='0' width='8' height='8' fill='%2300ff88'/%3E%3Crect x='8' y='8' width='8' height='8' fill='%2300ff88'/%3E%3C/svg%3E") 4 4, crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.07) 2px,
+      rgba(0,0,0,0.07) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.92; }
+    94% { opacity: 1; }
+    96% { opacity: 0.95; }
+    97% { opacity: 1; }
+  }
+  body { animation: flicker 8s infinite; }
+
+  /* ========== HEADER ========== */
+  header {
+    border-bottom: 4px solid var(--border);
+    background: var(--bg2);
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent), 4px 4px 0 #003320;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 22px;
+    transition: color 0.1s;
+    letter-spacing: 1px;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+  }
+
+  /* ========== MARQUEE ========== */
+  .marquee-bar {
+    background: var(--accent2);
+    padding: 6px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 22s linear infinite;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(100vw); }
+    to { transform: translateX(-100%); }
+  }
+
+  /* ========== PAGE HERO ========== */
+  .page-hero {
+    padding: 60px 40px 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(14px, 2.5vw, 24px);
+    line-height: 2;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .page-title span { color: var(--accent); text-shadow: 0 0 20px var(--accent); }
+
+  .page-sub {
+    color: var(--muted);
+    font-size: 22px;
+    line-height: 1.5;
+  }
+
+  /* ========== APP CARDS ========== */
+  .apps-grid {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 28px;
+  }
+
+  .app-card {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.1s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .app-card:hover {
+    border-color: var(--accent4);
+    transform: translate(-3px, -3px);
+    box-shadow: 5px 5px 0 var(--accent4);
+  }
+
+  .app-thumb {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .thumb-brianna { background: linear-gradient(135deg, #0d001a 0%, #1a003a 50%, #0a000f 100%); }
+  .thumb-grid    { background: linear-gradient(135deg, #001520 0%, #002840 50%, #000d15 100%); }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  .app-thumb span { animation: float 3s ease-in-out infinite; filter: drop-shadow(0 0 12px currentColor); }
+
+  .app-badge {
+    position: absolute;
+    top: 0; left: 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 5px 9px;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-available { background: var(--accent); color: var(--bg); }
+  .badge-soon      { background: var(--accent3); color: var(--bg); }
+
+  .app-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .app-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  .app-desc {
+    color: var(--muted);
+    font-size: 19px;
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .app-platforms {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .platform-tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 4px 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-ios     { background: rgba(62,184,255,0.12); color: var(--accent4); border: 1px solid var(--accent4); }
+  .tag-android { background: rgba(0,255,136,0.12); color: var(--accent); border: 1px solid var(--accent); }
+  .tag-coming  { background: rgba(255,224,51,0.12); color: var(--accent3); border: 1px solid var(--accent3); }
+
+  .app-cta {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    background: var(--accent4);
+    color: var(--bg);
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.05s, box-shadow 0.05s;
+    box-shadow: 4px 4px 0 #012040;
+    width: 100%;
+    text-decoration: none;
+    margin-top: 6px;
+  }
+
+  .app-cta:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #012040;
+  }
+
+  .app-cta.cta-muted {
+    background: transparent;
+    color: var(--accent3);
+    border: 2px solid var(--accent3);
+    box-shadow: 4px 4px 0 #3a2a00;
+  }
+
+  .app-cta.cta-muted:hover {
+    background: var(--accent3);
+    color: var(--bg);
+    box-shadow: 6px 6px 0 #3a2a00;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    border-top: 4px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 18px;
+    background: var(--bg2);
+  }
+
+  footer .logo {
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  footer .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    list-style: none;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  footer .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.1s;
+  }
+
+  footer .footer-links a:hover {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="logo">
+    <svg width="32" height="32" viewBox="0 0 8 8" style="image-rendering:pixelated">
+      <rect x="3" y="0" width="2" height="1" fill="#00ff88"/>
+      <rect x="2" y="1" width="4" height="1" fill="#00ff88"/>
+      <rect x="1" y="2" width="6" height="1" fill="#00ff88"/>
+      <rect x="0" y="3" width="8" height="2" fill="#00ff88"/>
+      <rect x="1" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="5" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="0" y="6" width="3" height="1" fill="#00ff88"/>
+      <rect x="5" y="6" width="3" height="1" fill="#00ff88"/>
+    </svg>
+    EE GAMES
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">GAMES</a></li>
+    <li><a href="apps.html" class="active">APPS</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+  </ul>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <h1 class="page-title">MOBILE <span>APPS</span></h1>
+  <p class="page-sub">Free to play &nbsp;·&nbsp; Built for iOS &amp; Android &nbsp;·&nbsp; No accounts required</p>
+</div>
+
+<!-- APP CARDS -->
+<div class="apps-grid">
+
+  <div class="app-card" onclick="window.location.href='briannas-game-app.html'">
+    <div class="app-thumb thumb-brianna">
+      <span class="app-badge badge-available">AVAILABLE NOW</span>
+      <img src="images/icons/briannas-game.png" style="width:80px;height:80px;object-fit:contain;image-rendering:pixelated;">
+    </div>
+    <div class="app-body">
+      <div class="app-title">BRIANNA'S GAME</div>
+      <div class="app-desc">A merge puzzle game built with love. Complete levels by combining matching pieces to clear the board.</div>
+      <div class="app-platforms">
+        <span class="platform-tag tag-ios">iOS</span>
+        <span class="platform-tag tag-android">ANDROID</span>
+      </div>
+      <a class="app-cta" href="briannas-game-app.html">▶ &nbsp; VIEW APP</a>
+    </div>
+  </div>
+
+  <div class="app-card" onclick="window.location.href='some-grid-puzzle-game.html'">
+    <div class="app-thumb thumb-grid">
+      <span class="app-badge badge-soon">COMING SOON</span>
+      <img src="images/icons/some-grid-puzzle-game.png" style="width:80px;height:80px;object-fit:contain;image-rendering:pixelated;">
+    </div>
+    <div class="app-body">
+      <div class="app-title">SOME GRID PUZZLE GAME</div>
+      <div class="app-desc">Our next title is in development. A grid-based puzzle experience — stay tuned for more details.</div>
+      <div class="app-platforms">
+        <span class="platform-tag tag-coming">IN DEVELOPMENT</span>
+      </div>
+      <a class="app-cta cta-muted" href="some-grid-puzzle-game.html">👁 &nbsp; SEE PREVIEW</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="logo">
+    <svg width="24" height="24" viewBox="0 0 8 8" style="image-rendering:pixelated">
+      <rect x="3" y="0" width="2" height="1" fill="#00ff88"/>
+      <rect x="2" y="1" width="4" height="1" fill="#00ff88"/>
+      <rect x="1" y="2" width="6" height="1" fill="#00ff88"/>
+      <rect x="0" y="3" width="8" height="2" fill="#00ff88"/>
+      <rect x="1" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="5" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="0" y="6" width="3" height="1" fill="#00ff88"/>
+      <rect x="5" y="6" width="3" height="1" fill="#00ff88"/>
+    </svg>
+    EE GAMES
+  </a>
+  <p>Made with ❤ and too much caffeine &nbsp;·&nbsp; All games original &nbsp;·&nbsp; © 2025</p>
+  <ul class="footer-links">
+    <li><a href="index.html">GAMES</a></li>
+    <li><a href="apps.html">APPS</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logo.png">
+<title>About — EE Games</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --panel: #16161f;
+    --border: #2a2a3a;
+    --accent: #00ff88;
+    --accent2: #ff3e6c;
+    --accent3: #ffe033;
+    --accent4: #3eb8ff;
+    --text: #e8e8f0;
+    --muted: #666680;
+    --pixel: 4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='0' y='0' width='8' height='8' fill='%2300ff88'/%3E%3Crect x='8' y='8' width='8' height='8' fill='%2300ff88'/%3E%3C/svg%3E") 4 4, crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.07) 2px,
+      rgba(0,0,0,0.07) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.92; }
+    94% { opacity: 1; }
+    96% { opacity: 0.95; }
+    97% { opacity: 1; }
+  }
+  body { animation: flicker 8s infinite; }
+
+  /* ========== HEADER ========== */
+  header {
+    border-bottom: 4px solid var(--border);
+    background: var(--bg2);
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent), 4px 4px 0 #003320;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 22px;
+    transition: color 0.1s;
+    letter-spacing: 1px;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+  }
+
+  /* ========== PAGE CONTENT ========== */
+  .page-hero {
+    padding: 60px 40px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(14px, 2.5vw, 24px);
+    line-height: 2;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .page-title span { color: var(--accent); text-shadow: 0 0 20px var(--accent); }
+
+  .page-sub {
+    color: var(--muted);
+    font-size: 22px;
+    line-height: 1.5;
+  }
+
+  .content-panel {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto 60px;
+  }
+
+  .about-section {
+    margin-bottom: 48px;
+  }
+
+  .about-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .about-section h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--accent4);
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.8;
+  }
+
+  .about-section p {
+    color: var(--text);
+    font-size: 20px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .about-section p:last-child { margin-bottom: 0; }
+
+  .about-section ul {
+    list-style: none;
+    margin: 12px 0;
+  }
+
+  .about-section ul li {
+    color: var(--text);
+    font-size: 20px;
+    line-height: 1.7;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+
+  .about-section ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .highlight-box {
+    background: rgba(0,255,136,0.05);
+    border: 1px solid var(--accent);
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .highlight-box p {
+    color: var(--accent) !important;
+  }
+
+  a.inline-link {
+    color: var(--accent4);
+    text-decoration: none;
+  }
+  a.inline-link:hover {
+    text-shadow: 0 0 8px var(--accent4);
+    text-decoration: underline;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    border-top: 4px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 18px;
+    background: var(--bg2);
+  }
+
+  footer .logo {
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  footer .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    list-style: none;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  footer .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.1s;
+  }
+
+  footer .footer-links a:hover {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="logo">
+    <svg width="32" height="32" viewBox="0 0 8 8" style="image-rendering:pixelated">
+      <rect x="3" y="0" width="2" height="1" fill="#00ff88"/>
+      <rect x="2" y="1" width="4" height="1" fill="#00ff88"/>
+      <rect x="1" y="2" width="6" height="1" fill="#00ff88"/>
+      <rect x="0" y="3" width="8" height="2" fill="#00ff88"/>
+      <rect x="1" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="5" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="0" y="6" width="3" height="1" fill="#00ff88"/>
+      <rect x="5" y="6" width="3" height="1" fill="#00ff88"/>
+    </svg>
+    EE GAMES
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">GAMES</a></li>
+    <li><a href="apps.html">APPS</a></li>
+    <li><a href="about.html" class="active">ABOUT</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+  </ul>
+</header>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <h1 class="page-title">ABOUT <span>EE GAMES</span></h1>
+  <p class="page-sub">Who we are and how we keep games free.</p>
+</div>
+
+<!-- CONTENT -->
+<div class="content-panel">
+
+  <div class="about-section">
+    <h2>OUR MISSION</h2>
+    <p>Build awesome games.</p>
+    <p>We build games for the web and for mobile (iOS and Android). Whether you're on a phone or a desktop, our games should be accessible.</p>
+    <p>We thought it'd be fun to create this website to drive traffic to our site and maybe get some more app downloads.</p>
+    <div class="highlight-box">
+      <p>We also don't collect data on this site.</p>
+    </div>
+    <p>Our browser games require nothing — no login, no download. Our mobile apps are free to download on the App Store and Google Play.</p>
+  </div>
+
+  <div class="about-section">
+    <h2>HOW WE STAY FREE</h2>
+    <p>Optional ads on our mobile games is our current approach. Maybe someday we'll make a paid game.</p>
+    <ul>
+      <li>Our mobile apps include optional ads served by Google AdMob.</li>
+      <li>Ads are OPTIONAL. Each game can be played without seeing a single ad, but offer help if you get stuck</li>
+      <li>Our browser games on this site are completely ad-free.</li>
+    </ul>
+    <p>If you play our mobile apps, the ads you see are what make it possible for us to keep building and releasing new games at no cost to you (of course, your time is a cost...). We appreciate it.</p>
+    <p>For more details on what data the ad network may collect, see our <a class="inline-link" href="privacy-policy.html">Privacy Policy</a>.</p>
+  </div>
+
+  <div class="about-section">
+    <h2>CONTACT</h2>
+    <p>Questions, feedback, or just want to say hi? Reach us at <a class="inline-link" href="mailto:support@ee-games.com">support@ee-games.com</a> or visit our <a class="inline-link" href="support.html">Support page</a>.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="logo">
+    <svg width="24" height="24" viewBox="0 0 8 8" style="image-rendering:pixelated">
+      <rect x="3" y="0" width="2" height="1" fill="#00ff88"/>
+      <rect x="2" y="1" width="4" height="1" fill="#00ff88"/>
+      <rect x="1" y="2" width="6" height="1" fill="#00ff88"/>
+      <rect x="0" y="3" width="8" height="2" fill="#00ff88"/>
+      <rect x="1" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="5" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="0" y="6" width="3" height="1" fill="#00ff88"/>
+      <rect x="5" y="6" width="3" height="1" fill="#00ff88"/>
+    </svg>
+    EE GAMES
+  </a>
+  <p>Made with ❤ and too much caffeine &nbsp;·&nbsp; All games original &nbsp;·&nbsp; © 2025</p>
+  <ul class="footer-links">
+    <li><a href="index.html">GAMES</a></li>
+    <li><a href="apps.html">APPS</a></li>
+    <li><a href="about.html">ABOUT</a></li>
+    <li><a href="support.html">SUPPORT</a></li>
+    <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

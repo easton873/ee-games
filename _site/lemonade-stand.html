@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="logo.png">
+<title>{{ game.title }} — EE GAMES</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --panel: #16161f;
+    --border: #2a2a3a;
+    --accent: #00ff88;
+    --accent2: #ff3e6c;
+    --accent3: #ffe033;
+    --accent4: #3eb8ff;
+    --text: #e8e8f0;
+    --muted: #666680;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  header {
+    border-bottom: 4px solid var(--border);
+    background: var(--bg2);
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent), 3px 3px 0 #003320;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .breadcrumb { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 18px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); }
+  .breadcrumb .sep { color: var(--border); }
+  .breadcrumb .current { color: var(--text); }
+
+  .header-actions { display: flex; gap: 12px; align-items: center; }
+
+  .btn-ghost {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 9px 14px;
+    background: transparent;
+    border: 2px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.1s;
+  }
+
+  .btn-ghost:hover { border-color: var(--accent4); color: var(--accent4); }
+
+  
+  .page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 40px 60px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-rows: auto auto auto;
+    gap: 24px;
+  }
+
+  .game-title-bar {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .game-title-left { display: flex; flex-direction: column; gap: 10px; }
+
+  .game-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(14px, 2.5vw, 24px);
+    color: var(--text);
+    line-height: 1.6;
+    letter-spacing: 1px;
+  }
+
+  .game-meta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+  .tag { font-family: 'Press Start 2P', monospace; font-size: 7px; padding: 5px 9px; letter-spacing: 0.5px; }
+  .tag-arcade { background: rgba(0,255,136,0.12); color: var(--accent); border: 1px solid var(--accent); }
+  .tag-action { background: rgba(255,62,108,0.12); color: var(--accent2); border: 1px solid var(--accent2); }
+  .tag-puzzle { background: rgba(62,184,255,0.12); color: var(--accent4); border: 1px solid var(--accent4); }
+  .tag-strategy { background: rgba(255,224,51,0.12); color: var(--accent3); border: 1px solid var(--accent3); }
+  .tag-platformer { background: rgba(200,100,255,0.12); color: #c864ff; border: 1px solid #c864ff; }
+
+  .meta-stat { color: var(--muted); font-size: 19px; display: flex; align-items: center; gap: 5px; }
+  .meta-stat .val { color: var(--text); }
+
+  .game-title-right { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+
+  .btn-primary {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 13px 22px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: 4px 4px 0 #003320;
+    transition: all 0.08s;
+  }
+
+  .btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #003320; }
+  .btn-primary:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #003320; }
+
+  .game-column { display: flex; flex-direction: column; gap: 20px; }
+
+  .game-window { background: #000; border: 4px solid var(--border); position: relative; overflow: hidden; }
+
+  .game-window-bar {
+    background: var(--bg2);
+    border-bottom: 2px solid var(--border);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .window-dots { display: flex; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 0; }
+  .dot-red { background: var(--accent2); }
+  .dot-yellow { background: var(--accent3); }
+  .dot-green { background: var(--accent); }
+
+  .window-title { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--muted); letter-spacing: 1px; }
+
+  .fullscreen-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+
+  .fullscreen-btn:hover { border-color: var(--accent4); color: var(--accent4); }
+
+  .game-frame-container { position: relative; width: 100%; padding-bottom: 62.5%; background: #000; }
+  .game-frame-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
+
+  .game-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    background: radial-gradient(ellipse at center, #1a1200 0%, #0a0800 60%, #000 100%);
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .game-placeholder.hidden { display: none; }
+
+  .play-icon {
+    width: 80px; height: 80px;
+    border: 4px solid #ffe033;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 0 30px rgba(255,224,51,0.3);
+    animation: pulse 2s ease-in-out infinite;
+    transition: transform 0.1s;
+  }
+
+  .game-placeholder:hover .play-icon { transform: scale(1.1); }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(255,224,51,0.3); }
+    50% { box-shadow: 0 0 50px rgba(255,224,51,0.6); }
+  }
+
+  .click-to-play {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: #ffe033;
+    letter-spacing: 2px;
+    animation: blink 1.2s step-end infinite;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  .placeholder-stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .pstar { position: absolute; width: 2px; height: 2px; background: #ffe033; animation: twinkle 2s step-end infinite; }
+  @keyframes twinkle { 0%, 100% { opacity: 0.8; } 50% { opacity: 0.1; } }
+
+  .info-tabs { border: 2px solid var(--border); background: var(--panel); }
+  .tab-bar { display: flex; border-bottom: 2px solid var(--border); }
+
+  .tab {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 14px 20px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    border-right: 2px solid var(--border);
+    transition: all 0.1s;
+  }
+
+  .tab:last-child { border-right: none; }
+  .tab:hover { color: var(--text); }
+
+  .tab.active {
+    color: var(--accent);
+    background: rgba(0,255,136,0.06);
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: -2px;
+  }
+
+  .tab-content { padding: 24px; display: none; }
+  .tab-content.active { display: block; }
+
+  .desc-text { color: var(--text); font-size: 22px; line-height: 1.7; }
+  .desc-text p + p { margin-top: 12px; }
+
+  .controls-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 8px; }
+  .control-item { background: var(--bg2); border: 1px solid var(--border); padding: 14px; display: flex; align-items: center; gap: 12px; }
+
+  .key {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-bottom: 4px solid var(--border);
+    color: var(--accent3);
+    padding: 6px 10px;
+    min-width: 40px;
+    text-align: center;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .control-label { color: var(--muted); font-size: 19px; line-height: 1.3; }
+
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+  .sidebar-box { background: var(--panel); border: 2px solid var(--border); }
+
+  .sidebar-header {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text);
+    letter-spacing: 1px;
+    padding: 14px 18px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar-header span { color: var(--accent2); }
+
+  .more-games-list { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+
+  .more-game-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.1s;
+    text-decoration: none;
+  }
+
+  .more-game-item:hover { border-color: var(--accent4); transform: translateX(3px); }
+
+  .more-game-thumb {
+    width: 52px; height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    border: 1px solid var(--border);
+  }
+
+  .thumb-space { background: linear-gradient(135deg, #000510, #001035); }
+  .thumb-dungeon { background: linear-gradient(135deg, #1a0800, #3d1a00); }
+  .thumb-platform { background: linear-gradient(135deg, #001500, #003000); }
+  .thumb-fight { background: linear-gradient(135deg, #200000, #450000); }
+
+  .more-game-info { flex: 1; min-width: 0; }
+  .more-game-title { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--text); line-height: 1.6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.3px; }
+  .more-game-meta { color: var(--muted); font-size: 16px; margin-top: 3px; }
+  .more-game-arrow { color: var(--muted); font-size: 18px; flex-shrink: 0; }
+  .more-game-item:hover .more-game-arrow { color: var(--accent4); }
+
+  .info-list { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .info-key { color: var(--muted); font-size: 18px; }
+  .info-val { color: var(--text); font-size: 19px; text-align: right; }
+  .info-val.green { color: var(--accent); }
+  .info-val.yellow { color: var(--accent3); }
+
+  @media (max-width: 900px) {
+    .page { grid-template-columns: 1fr; padding: 20px; }
+    .game-title-bar, .game-column, .sidebar { grid-column: 1; }
+  }
+
+  .game-window:fullscreen .game-window-bar { display: none; }
+  .game-window:fullscreen .game-frame-container { padding-bottom: 0; height: 100vh; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <svg width="24" height="24" viewBox="0 0 8 8" style="image-rendering:pixelated">
+      <rect x="3" y="0" width="2" height="1" fill="#00ff88"/>
+      <rect x="2" y="1" width="4" height="1" fill="#00ff88"/>
+      <rect x="1" y="2" width="6" height="1" fill="#00ff88"/>
+      <rect x="0" y="3" width="8" height="2" fill="#00ff88"/>
+      <rect x="1" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="5" y="5" width="2" height="1" fill="#00ff88"/>
+      <rect x="0" y="6" width="3" height="1" fill="#00ff88"/>
+      <rect x="5" y="6" width="3" height="1" fill="#00ff88"/>
+    </svg>
+    EE GAMES
+  </a>
+  
+  <div class="breadcrumb">
+    <a href="index.html">GAMES</a>
+    <span class="sep">›</span>
+    <span class="current">LEMONADE STAND</span>
+  </div>
+
+  
+  <div class="header-actions">
+    <button class="btn-ghost" onclick="toggleFullscreen()">⛶ FULLSCREEN</button>
+  </div>
+
+</header>
+
+
+<div class="page">
+
+  <div class="game-title-bar">
+    <div class="game-title-left">
+      <h1 class="game-title">LEMONADE STAND</h1>
+      <div class="game-meta">
+        
+          <span class="tag tag-strategy">STRATEGY</span>
+        
+        <span class="meta-stat">★ <span class="val" style="color:var(--accent3)">4.7</span>&nbsp;/ 5</span>
+      </div>
+    </div>
+    <div class="game-title-right">
+      <button class="btn-primary" onclick="startGame()">▶ PLAY NOW</button>
+    </div>
+  </div>
+
+  <div class="game-column">
+
+    <div class="game-window" id="game-window">
+      <div class="game-window-bar">
+        <div class="window-dots">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+        </div>
+        <span class="window-title">LEMONADE STAND</span>
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ FULLSCREEN</button>
+      </div>
+      <div class="game-frame-container" id="game-frame-container">
+        <div class="game-placeholder" id="game-placeholder" onclick="startGame()">
+          <div class="placeholder-stars" id="placeholder-stars"></div>
+          <div class="play-icon">▶</div>
+          <span class="click-to-play">CLICK TO PLAY</span>
+        </div>
+        <iframe
+          id="game-iframe"
+          src="about:blank"
+          allowfullscreen
+          allow="autoplay; fullscreen"
+          style="display:none"
+        ></iframe>
+      </div>
+    </div>
+
+    <div class="info-tabs">
+      <div class="tab-bar">
+        <button class="tab active" onclick="switchTab('desc', this)">DESCRIPTION</button>
+        <button class="tab" onclick="switchTab('controls', this)">CONTROLS</button>
+      </div>
+
+      <div class="tab-content active" id="tab-desc">
+        <div class="desc-text">
+          
+            <p>Start your empire one cup at a time.</p>
+          
+            <p>Manage your lemonade stand by setting the right price, buying supplies, and reading the weather. Too expensive and nobody buys. Too cheap and you lose money. Get it just right and watch the profits roll in.</p>
+          
+            <p>A classic business strategy game — simple to play, tricky to master.</p>
+          
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-controls">
+        <div class="controls-grid">
+          
+            <div class="control-item">
+              <span class="key">MOUSE</span>
+              <span class="control-label">All controls</span>
+            </div>
+          
+            <div class="control-item">
+              <span class="key">CLICK</span>
+              <span class="control-label">Confirm / buy</span>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sidebar">
+
+    <div class="sidebar-box">
+      <div class="sidebar-header">GAME INFO</div>
+      <div class="info-list">
+        <div class="info-row">
+          <span class="info-key">STATUS</span>
+          <span class="info-val green">● ONLINE</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">PLATFORM</span>
+          <span class="info-val">BROWSER</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">GENRE</span>
+          <span class="info-val">STRATEGY</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">DIFFICULTY</span>
+          <span class="info-val yellow">★★☆☆☆</span>
+        </div>
+        <div class="info-row">
+          <span class="info-key">MOBILE</span>
+          <span class="info-val">✓ SUPPORTED</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-box">
+      <div class="sidebar-header">MORE <span>GAMES</span></div>
+      <div class="more-games-list">
+        
+          
+            <a class="more-game-item" href="ultimate-button-clicker.html">
+              <div class="more-game-thumb thumb-space">
+                
+                  <img src="images/icons/ultimate-button-clicker.png" alt="ULTIMATE BUTTON CLICKER" style="width:100%;height:100%;object-fit:contain;">
+                
+              </div>
+              <div class="more-game-info">
+                <div class="more-game-title">ULTIMATE BUTTON CLICKER</div>
+                <div class="more-game-meta">ARCADE · CLICKER</div>
+              </div>
+              <span class="more-game-arrow">›</span>
+            </a>
+          
+        
+          
+            <a class="more-game-item" href="avoid-the-walls.html">
+              <div class="more-game-thumb thumb-fight">
+                
+                  <img src="images/icons/avoid-the-walls.png" alt="AVOID THE WALLS" style="width:100%;height:100%;object-fit:contain;">
+                
+              </div>
+              <div class="more-game-info">
+                <div class="more-game-title">AVOID THE WALLS</div>
+                <div class="more-game-meta">ACTION · ARCADE</div>
+              </div>
+              <span class="more-game-arrow">›</span>
+            </a>
+          
+        
+          
+        
+          
+            <a class="more-game-item" href="briannas-game.html">
+              <div class="more-game-thumb thumb-platform">
+                
+                  <img src="images/icons/briannas-game.png" alt="BRIANNA&#39;S GAME" style="width:100%;height:100%;object-fit:contain;">
+                
+              </div>
+              <div class="more-game-info">
+                <div class="more-game-title">BRIANNA&#39;S GAME</div>
+                <div class="more-game-meta">ARCADE</div>
+              </div>
+              <span class="more-game-arrow">›</span>
+            </a>
+          
+        
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  const starsEl = document.getElementById('placeholder-stars');
+  for (let i = 0; i < 40; i++) {
+    const s = document.createElement('div');
+    s.className = 'pstar';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = Math.random() * 2 + 's';
+    starsEl.appendChild(s);
+  }
+
+  function startGame() {
+    const placeholder = document.getElementById('game-placeholder');
+    const iframe = document.getElementById('game-iframe');
+    placeholder.classList.add('hidden');
+    iframe.style.display = 'block';
+    iframe.src = 'https://easton873.github.io/lemonade-stand/';
+  }
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggleFullscreen() {
+    const win = document.getElementById('game-window');
+    if (!document.fullscreenElement) {
+      win.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen();
+    }
+  }
+</script>
+
+
+</body>
+</html>
